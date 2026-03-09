@@ -1,0 +1,15 @@
+# Environments
+backend/venv/
+backend/__pycache__/
+.env
+
+# Dependencies
+frontend/node_modules/
+backend/*.pyc
+
+# Builds
+frontend/dist/
+frontend/build/
+
+# Settings
+.vscode/
