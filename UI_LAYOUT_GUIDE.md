@@ -1,0 +1,121 @@
+# UI Layout Guide
+
+## Frontend Layout Overview
+
+```
+┌─────────────────────────────────────────────────────────────────────────┐
+│                         HEADER                                          |
+├─────────────────────────────┬───────────────────────────────────────────┤
+│ Real-Time Anomaly Detection │  [Start] [Export] [Reset]                 │
+│ (Logo + Title)              │                                           |
+└─────────────────────────────┴───────────────────────────────────────────┘
+
+┌──────────────────────┬──────────────────────────────────────────────────┐
+│  LEFT SIDEBAR        │         MAIN CONTENT AREA                        │
+│  (lg:col-span-1)     │         (lg:col-span-3)                          │
+├──────────────────────┼──────────────────────────────────────────────────┤
+│                      │                                                  │
+│ ┌────────────────┐   │   ┌──────────────────────────────────────────┐   │
+│ │ Live Metrics   │   │   │ Live Data Stream                         │   │
+│ │ ┌──────┬─────┐ │   │   │ [Normal Data] [Detected Anomaly]         │   │
+│ │ │Total │Anom │ │   │   │                                          │   │
+│ │ │ 245  │ 12  │ │   │   │      📈 RECHARTS LINE CHART                  
+│ │ └──────┴─────┘ │   │   │      (Shows data with anomalies marked)  │   │
+│ │ ┌─────────────┐    │   │                                          │   │
+│ │ │ Anomaly %   │    │   │                                          │   │
+│ │ │    4.9 %    │    │   │                                          │   │
+│ │ └─────────────┘    │   │                                          │   │
+│ └────────────────┘   │   └──────────────────────────────────────────┘   │
+│                      │                                                  │
+│ ┌────────────────┐   │   ┌──────────────────────────────────────────┐   │
+│ │  ⬆️ Statistics        ⚙️ Detection Settings                      │
+│ │ ┌────────────┐ │   │   │ ┌────────────────┬───────────────────┐   │   │
+│ │ │Min: 75.23  │ │   │   │ │ Algorithm:     │ Sensitivity:      │   │   │
+│ │ └────────────┘ │   │   │ │ [ Z-Score ▼ ]  │ [ ─────●─────── ] │   │   │
+│ │ ┌────────────┐ │   │   │ ├────────────────┼───────────────────┤   │   │
+│ │ │Max: 125.67 │ │   │   │ │ Data Speed:    │ Anomaly Freq:     │   │   │
+│ │ └────────────┘ │   │   │ │ [ ───●───────] │ [ ──────●────── ] │   │   │
+│ │ ┌────────────┐ │   │   │ └────────────────┴───────────────────┘   │   │
+│ │ │Mean: 100.2 │ │   │   └──────────────────────────────────────────┘   │
+│ │ └────────────┘ │   │                                                  │
+│ │ ┌────────────┐ │   │                                                  │
+│ │ │Median: 99.8│ │   │                                                  │
+│ │ └────────────┘ │   │                                                  │
+│ │ ┌────────────┐ │   │                                                  │
+│ │ │StdDev: 12.5│ │   │                                                  │
+│ │ └────────────┘ │   │                                                  │
+│ └────────────────┘   │                                                  │
+│                      │                                                  │
+│                      │
+└──────────────────────┴──────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────────┐
+│  ANOMALY HISTORY PANEL (Toggle with button above)                        │
+├─────────────────────────────────────────────────────────────────────────┤
+│  Detected Anomalies                                                      │
+├─────────────────────────────────────────────────────────────────────────┤
+│ Timestamp     │ Value   │ Algorithm        │ Threshold │ Type           │
+├───────────────┼─────────┼──────────────────┼───────────┼────────────────┤
+│ 14:23:45      │ 145.67  │ Z-Score          │ 5.0       │ Detected       │
+│ 14:23:42      │ 42.12   │ Isolation Forest │ 6.0       │ Injected       │
+│ 14:23:39      │ 156.89  │ Z-Score          │ 5.0       │ Detected       │
+│ ...           │ ...     │ ...              │ ...       │ ...            │
+└─────────────────────────────────────────────────────────────────────────┘
+```
+
+## Feature Locations
+
+### 1. Statistics Panel (Left Sidebar)
+- **Position**: Second panel in left column
+- **Size**: Compact, stacked vertically
+- **Updates**: Every 1 second
+- **Colors**:
+  - Min: Cyan
+  - Max: Yellow
+  - Mean: White
+  - Median: Green
+  - StdDev: Purple
+
+### 2. Anomaly History Toggle
+- **Position**: Third item in left column
+- **Style**: Full-width button
+- **States**: 
+  - Inactive: Gray with icon + "Show Anomaly History"
+  - Active: Red/Rose with icon + "Hide Anomaly History"
+- **Badge**: Shows count of detected anomalies
+
+### 3. Anomaly History Table
+- **Position**: Bottom of page, full width
+- **Visibility**: Toggles on/off with button
+- **Scroll**: Horizontal overflow for wide screens
+- **Sorting**: Shows last 20 anomalies, most recent first
+- **Color Coding**:
+  - Algorithm: Blue (Z-Score), Purple (Isolation Forest)
+  - Type: Yellow (Injected), Red (Detected)
+
+### 4. Export Button
+- **Position**: Header, next to Stop/Reset buttons
+- **Style**: Blue gradient button with download icon
+- **Action**: Downloads CSV file immediately
+- **File**: `anomalies_export.csv`
+
+## Responsive Design
+
+- **Desktop (lg)**: 4-column grid, left sidebar + main chart
+- **Tablet/Mobile**: Stacks to single column
+- All panels maintain glassmorphism design with gradients
+- Responsive chart adapts to available space
+
+## Color Scheme
+
+**Background**: Dark gradient (gray-900 → indigo-950)
+**Panels**: Glassmorphic (semi-transparent with borders)
+**Text**: White/gray with colored accents
+**Highlights**:
+- Indigo: Primary elements
+- Cyan: Min value
+- Yellow: Max value
+- Green: Median
+- Purple: StdDev
+- Rose: Anomalies
+- Blue: Export button
